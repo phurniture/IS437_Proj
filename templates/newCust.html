@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>new Customer</h1>
+    {% if msg %}
+        <div id=errormsg>
+            {% for error in msg%}
+            {{ err }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+        <form action="/newcustomer" method="POST">
+            first name <br> 
+            <input type="text" name="fname"/><br> <br> 
+            last name <br> 
+            <input type="text" name="lname"/><br> <br> 
+            email <br> 
+            <input type="email" name="email"/><br> <br> 
+            password <br> 
+            <input type="password" name="password"/><br> <br> 
+            retype password <br> 
+            <input type="password" name="password2"/><br> <br> 
+            subscribe <br> 
+            <select name="subscribe">
+                <option value="True">Yes</option>
+                <option value="False">no</option>
+            </select><br> <br> 
+
+            <input type="submit" value="save customer"/>
+        </form>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Customer</h1>
+    <form action="/savecustomer" method="POST">
+        first name <br> 
+        <input type="text" name="fname" value="{{customer.fname}}"/><br> <br> 
+        last name <br> 
+        <input type="text" name="lname" value="{{customer.lname}}"/><br> <br> 
+        email <br> 
+        <input type="email" name="email" value="{{customer.email}}"/><br> <br> 
+
+        <input type="hidden" name="id" value="{{customer.id}}"/>
+
+        password <br> 
+        <input type="password" name="password"/><br> <br> 
+        retype password <br> 
+        <input type="password" name="password2"/><br> <br> 
+        subscribe <br> 
+        <select name="subscribe">
+            <option value="True">Yes</option>
+            <option value="False">no</option>
+        </select><br> <br> 
+
+        <input type="submit" value="save customer"/>
+    </form>
+
+{% endblock %}
