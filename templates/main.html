@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>main menu</h1> 
+<h1>main menu</h1> 
+{% if msg %}
+<div id=menumsg>
+    {{ msg }}<br>
+</div>
+{% endif %}
+
+
     <br><br>
     <a href = "customers">manage customers</a>
 

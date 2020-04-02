@@ -46,6 +46,7 @@ class customerList(baseObject):
         #print(tokens)
         cur.execute(sql,tokens)
         self.data = []
+        n=0
         for row in cur:
             self.data.append(row)
             n+=1

@@ -28,15 +28,35 @@ def get():
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
+    
+
+
     if request.form.get('email') is not None and request.form.get('password') is not None:
         c = customerList()
         if c.tryLogin(request.form.get('email'), request.form.get('password')):
             print('login ok')
+            session['user'] = c.data[0]
+            session['active'] = time.time()
+            return redirect('main')
         else:
             print('login failed')
-        return ''
+        return render_template('login.html', title='Login', msg= 'incorrect username or password')
     else:
-        return render_template('login.html', title='Login', msg='Type your email and password to continue')
+        if 'msg' not in session.keys() or session['msg'] is None:
+            m = 'type email and password to continue'
+        else:
+            m = session['msg']
+            session['msg'] = None
+        return render_template('login.html', title='Login', msg=m)
+
+
+@app.route('/logout',methods = ['GET','POST'])
+def logout():
+    del session['user']
+    del session['active']
+    return render_template('login.html', title='Login', msg='you have logged out')
+
+
 
 @app.route('/basichttp')
 def basichttp():
@@ -61,6 +81,9 @@ def index():
 
 @app.route('/customer')
 def customer():
+    if checkSession() == False:
+        return redirect('login')
+
     c = customerList()
     if request.args.get(c.pk) is None:
         return render_template('error.html', msg='no customer id given')
@@ -75,6 +98,9 @@ def customer():
 
 @app.route('/customers')
 def customers():
+    if checkSession() == False:
+        return redirect('login')
+
     c = customerList()
     c.getAll()
 
@@ -84,6 +110,9 @@ def customers():
 
 @app.route('/newcustomer', methods = ['GET', 'POST'])
 def newcustomer():
+    if checkSession() == False:
+        return redirect('login')
+
     if request.form.get('fname') is None:
         c = customerList()
         c.set('fname','')
@@ -112,6 +141,9 @@ def newcustomer():
 
 @app.route('/savecustomer', methods = ['GET', 'POST'])
 def savecustomer():
+    if checkSession() == False:
+        return redirect('login')
+
     c = customerList()
     c.set('id',request.form.get('id'))
     c.set('fname',request.form.get('fname'))
@@ -128,9 +160,23 @@ def savecustomer():
 
 @app.route('/main')
 def main():
-    return render_template('main.html', title='main menu')
+    if checkSession() == False: 
+        return redirect('login')
+    userinfo = 'Hello, ' + session['user']['fname']
+    return render_template('main.html', title='Main menu',msg = userinfo)  
 
-
+def checkSession():
+    if 'active' in session.keys():
+        timeSinceAct = time.time() - session['active']
+        print(timeSinceAct)
+        if timeSinceAct > 500:
+            session['msg'] = 'Your session has timed out.'
+            return False
+        else:
+            session['active'] = time.time()
+            return True
+    else:
+        return False
 
 @app.route('/static/<path:path>')
 def send_static(path):

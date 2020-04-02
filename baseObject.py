@@ -35,11 +35,14 @@ class baseObject:
             self.tempdata[fn] = val
         else:
             print('Invalid field: ' + str(fn))
+    '''
     def update(self,n,fn,val):
         if len(self.data) >= (n + 1) and fn in self.fnl:
             self.data[n][fn] = val
         else:
             print('could not set value at row ' + str(n) + ' col ' + str(fn) )
+    '''
+    
     def insert(self,n=0):
         cols = ''
         vals = ''
