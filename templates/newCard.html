@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>new card</h1>
+    {% if msg %}
+        <div id=errormsg>
+            {% for error in msg%}
+            {{ err }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+        <form action="/newCard" method="POST">
+            card name <br> 
+            <input type="text" name="name"/><br> <br> 
+            card price <br> 
+            <input type="text" name="price"/><br> <br> 
+            <input type="submit" value="save card"/>
+        </form>
+
+{% endblock %}

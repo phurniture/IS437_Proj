@@ -1,4 +1,4 @@
-import pymysql
+import pymysql,json
 
 class baseObject:
     
@@ -35,14 +35,6 @@ class baseObject:
             self.tempdata[fn] = val
         else:
             print('Invalid field: ' + str(fn))
-    '''
-    def update(self,n,fn,val):
-        if len(self.data) >= (n + 1) and fn in self.fnl:
-            self.data[n][fn] = val
-        else:
-            print('could not set value at row ' + str(n) + ' col ' + str(fn) )
-    '''
-    
     def insert(self,n=0):
         cols = ''
         vals = ''
@@ -59,6 +51,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
         self.data[n][self.pk] = cur.lastrowid
     def delete(self,n=0):
@@ -70,8 +63,9 @@ class baseObject:
         tokens = (id)
         self.connect()
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
-        #print(sql)
-        #print(tokens)
+        print(sql)
+        print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
     
         
@@ -80,8 +74,10 @@ class baseObject:
         tokens = (id)
         self.connect()
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
         self.data = []
         for row in cur:
@@ -94,6 +90,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql)
         cur.execute(sql)
         self.data = []
         for row in cur:
@@ -114,6 +111,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
     
     def getByField(self,field,value):
@@ -123,6 +121,7 @@ class baseObject:
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
         #print(tokens)
+        self.log(sql,tokens)
         cur.execute(sql,tokens)
         self.data = []
         for row in cur:
@@ -138,3 +137,11 @@ class baseObject:
         self.data = []
         for row in cur:
             self.data.append(row)
+
+    def log(self,sql,tokens=[]):
+        f = open('logs/sql_log.txt','a')
+        import datetime
+        now = datetime.datetime.now()
+        debug_str = str(now) +' - ' +sql + json.dumps(tokens) + '\n'
+        f.write(debug_str)
+        f.close()

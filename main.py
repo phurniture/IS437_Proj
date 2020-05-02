@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request,session, redirect, url_for, escape,send_from_directory,make_response 
 from customer import customerList
+from card import cardList
 
 import pymysql 
 import json
@@ -139,6 +140,48 @@ def newcustomer():
         else:
             return render_template('newCust.html', title='Customer not saved', customer = c.data[0], msg = c.errorList)
 
+@app.route('/newCard', methods = ['GET', 'POST'])
+def newcard():
+    if checkSession() == False:
+        return redirect('login')
+
+    if request.form.get('cardName') is None:
+        c = cardList()
+        c.set('cardName','')
+        c.set('cardPrice','')
+        c.add()
+        return render_template('newCard.html', title='new Card', card = c.data[0])
+    else:
+        c = cardList()
+        c.set('cardName',request.form.get('cardName'))
+        c.set('cardPrice',request.form.get('cardPrice'))
+        c.add()
+        c.insert()
+        print(c.data)
+        #return ''
+        return render_template('index.html', title='card saved', card = c.data[0])
+ 
+@app.route('/newsale', methods = ['GET', 'POST'])
+def newsale():
+    if checkSession() == False:
+        return redirect('login')
+
+    if request.form.get('cardName') is None:
+        c = cardList()
+        c.set('cardName','')
+        c.set('cardPrice','')
+        c.add()
+        return render_template('newsale.html', title='new Card', card = c.data[0])
+    else:
+        c = cardList()
+        c.set('cardName',request.form.get('cardName'))
+        c.set('cardPrice',request.form.get('cardPrice'))
+        c.add()
+        c.insert()
+        print(c.data)
+        #return ''
+        return render_template('index.html', title='listing saved', card = c.data[0])
+
 @app.route('/savecustomer', methods = ['GET', 'POST'])
 def savecustomer():
     if checkSession() == False:
@@ -157,6 +200,20 @@ def savecustomer():
     #return ''
     return render_template('savedcustomer.html', title='Customer saved', customer = c.data[0])
 
+@app.route('/savecard', methods = ['GET', 'POST'])
+def saveCard():
+    if checkSession() == False:
+        return redirect('login')
+
+    c = cardList()
+    c.set('card_id',request.form.get('card_id'))
+    c.set('cardName',request.form.get('cardName'))
+    c.set('cardPrice',request.form.get('cardPrice'))
+    c.add()
+    c.update()
+    print(c.data)
+    #return ''
+    return render_template('index.html', title='card saved', customer = c.data[0])
 
 @app.route('/main')
 def main():
@@ -164,6 +221,20 @@ def main():
         return redirect('login')
     userinfo = 'Hello, ' + session['user']['fname']
     return render_template('main.html', title='Main menu',msg = userinfo)  
+
+@app.route('/cards')
+def cards():
+    if checkSession() == False: 
+        return redirect('login')
+    userinfo = 'Hello, ' + session['user']['fname']
+    return render_template('cards.html', title='cards',msg = userinfo)
+
+@app.route('/store')
+def store():
+    if checkSession() == False: 
+        return redirect('login')
+    userinfo = 'Hello, ' + session['user']['fname']
+    return render_template('store.html', title='store',msg = userinfo)
 
 def checkSession():
     if 'active' in session.keys():

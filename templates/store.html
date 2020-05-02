@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Cards for sale</h1>
+    <a href="newsale">add new listing</a>
+    <table>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>price</td>
+        </tr>
+    {% for card in cards %}
+        <tr>
+            <td><a href='/card?id={{ card.id }}''>{{ card.card_id }}</a></td>
+            <td>{{ card.cardName }} {{ card.cardPrice }}</td>
+        </tr>
+
+    {% endfor %}
+    </table>
+
+{% endblock %}

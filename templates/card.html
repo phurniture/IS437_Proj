@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Customer</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+	  {% endif %}
+	  
+	<form action="/savecard" method="POST">
+		First Name:<br>
+		<input type="text" name="cardName" value="{{ card.cardName }}" /><br><br>
+		
+		Last Name:<br>
+		<input type="text" name="cardPrice" value="{{ card.cardPrice }}" /><br><br>
+		
+		
+		<input type="submit" value="Save card"/>
+			
+		</form>
+		<br><br>
+		
+{% endblock %}

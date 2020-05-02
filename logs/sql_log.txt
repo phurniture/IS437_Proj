@@ -1,0 +1,7 @@
+2020-04-23 10:57:17.335677 - SELECT * FROM `grinnecw_customers` []
+2020-04-23 10:57:23.606394 - SELECT * FROM `grinnecw_customers` WHERE `id` = %s;"1"
+2020-05-01 15:29:39.223361 - SELECT * FROM `grinnecw_customers` []
+2020-05-01 15:32:27.179384 - SELECT * FROM `grinnecw_customers` []
+2020-05-01 15:52:28.882098 - SELECT * FROM `grinnecw_customers` []
+2020-05-01 18:53:30.593410 - UPDATE `grinnecw_customers` SET  WHERE `id` = %s[null]
+2020-05-01 18:54:22.169042 - UPDATE `grinnecw_customers` SET  WHERE `id` = %s[null]

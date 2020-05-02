@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Cards</h1>
+    <a href="newCard">add new card</a>
+    <table>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>price</td>
+        </tr>
+    {% for card in cards %}
+        <tr>
+            <td><a href='/card?id={{ card.id }}''>{{ customer.id }}</a></td>
+            <td>{{ card.name }} {{ customer.price }}</td>
+        </tr>
+
+    {% endfor %}
+    </table>
+
+{% endblock %}
